@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+import rater.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('home/', rater.views.home),
+    path('signup/', rater.views.signup_user),
+    path('login/', rater.views.login_user),
+    path('logout/', rater.views.logout_user),
 ]
