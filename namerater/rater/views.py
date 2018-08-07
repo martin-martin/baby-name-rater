@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
@@ -6,7 +5,10 @@ from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 def signup_user(request):
-    if request.method == 'POST':
+    # only show the forms if the user is not logged in
+    if request.user.is_authenticated:
+        return redirect('/home')
+    elif request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():  # first see whether all is good
             form.save()  # at this point the new user is created
@@ -28,7 +30,10 @@ def signup_user(request):
     return render(request, 'signup.html', {'form': form})
 
 def login_user(request):
-    if request.method == 'POST':
+    # only show the forms if the user is not logged in
+    if request.user.is_authenticated:
+        return redirect('/home')
+    elif request.method == 'POST':
         # It's really important to remember to put `data=request.POST`
         # The AuthenticationForm works a little different than the other
         # forms, so the request is not its default first input...
